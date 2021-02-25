@@ -1,15 +1,17 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
-import { fetchUsers } from '../../api/users'
+import { fetchSearchUsers } from '../../api/users'
 import { LoadingStatus } from '../currentTypes'
 import { UsersActionsType } from './types'
 
 import { setUsers, setUsersErrorStatus, setUsersLoadingStatus } from './index'
 
-export function* loadUsers(): Generator {
+export function* loadSearchUsers(inputValue: string): Generator {
   try {
     yield put(setUsersLoadingStatus(LoadingStatus.LOADING))
-    const payload: ReturnType<typeof Object> = yield call(fetchUsers)
+    const payload: ReturnType<typeof Object> = yield call(() =>
+      fetchSearchUsers(inputValue)
+    )
     yield put(setUsers(payload))
   } catch ({ status }) {
     yield put(setUsersLoadingStatus(LoadingStatus.ERROR))
@@ -18,5 +20,5 @@ export function* loadUsers(): Generator {
 }
 
 export function* usersSaga(): Generator {
-  yield takeLatest(UsersActionsType.LOAD_USERS, loadUsers)
+  // yield takeLatest(UsersActionsType.LOAD_SEARCH_USERS, loadSearchUsers)
 }

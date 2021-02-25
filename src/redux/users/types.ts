@@ -1,7 +1,7 @@
 import { LoadingStatus, ErrorStatus } from '../currentTypes'
 
 export enum UsersActionsType {
-  LOAD_USERS = 'users/LOAD_USERS',
+  LOAD_SEARCH_USERS = 'users/LOAD_SEARCH_USERS',
 }
 
 export interface UserType {

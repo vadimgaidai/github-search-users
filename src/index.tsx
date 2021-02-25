@@ -1,5 +1,5 @@
-import { StrictMode } from 'react'
 import ReactDOM from 'react-dom'
+import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { ThemeProvider, CssBaseline } from '@material-ui/core'
 
@@ -16,9 +16,9 @@ ReactDOM.render(
   <ThemeProvider theme={materialUiTheme}>
     <CssBaseline />
     <Provider store={store}>
-      <StrictMode>
+      <BrowserRouter>
         <App />
-      </StrictMode>
+      </BrowserRouter>
     </Provider>
   </ThemeProvider>,
   document.getElementById('root')

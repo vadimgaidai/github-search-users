@@ -1,5 +1,5 @@
 import { createMuiTheme } from '@material-ui/core/styles'
-import { lightBlue, green, grey } from '@material-ui/core/colors'
+import { lightBlue, grey } from '@material-ui/core/colors'
 
 const theme = createMuiTheme({
   typography: {
@@ -10,11 +10,18 @@ const theme = createMuiTheme({
     primary: {
       main: lightBlue[500],
     },
-    secondary: {
-      main: green[300],
+    text: {
+      primary: 'white',
     },
     background: {
       default: grey.A400,
+    },
+  },
+  overrides: {
+    MuiContainer: {
+      root: {
+        height: '100%',
+      },
     },
   },
 })

@@ -6,7 +6,9 @@ import { ThemeProvider, CssBaseline } from '@material-ui/core'
 import materialUiTheme from './theme'
 import store from './redux/store'
 
+import Header from './components/Header'
 import App from './App'
+import Footer from './components/Footer'
 
 import reportWebVitals from './reportWebVitals'
 
@@ -17,7 +19,9 @@ ReactDOM.render(
     <CssBaseline />
     <Provider store={store}>
       <BrowserRouter>
+        <Header />
         <App />
+        <Footer />
       </BrowserRouter>
     </Provider>
   </ThemeProvider>,

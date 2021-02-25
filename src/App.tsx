@@ -1,8 +1,9 @@
 import { FC, useEffect } from 'react'
 import { Route, Switch, useLocation } from 'react-router-dom'
-import User from './pages/User'
+import { Container } from '@material-ui/core'
 
 import Users from './pages/Users'
+import User from './pages/User'
 
 const App: FC = () => {
   const location = useLocation()
@@ -12,10 +13,12 @@ const App: FC = () => {
   }, [location])
 
   return (
-    <Switch>
-      <Route path="/" component={Users} exact />
-      <Route path="/user/:name" component={User} exact />
-    </Switch>
+    <Container maxWidth="lg">
+      <Switch>
+        <Route path="/" component={Users} exact />
+        <Route path="/user/:name" component={User} exact />
+      </Switch>
+    </Container>
   )
 }
 

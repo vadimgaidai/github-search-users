@@ -6,12 +6,19 @@ const { actions, reducer } = createSlice({
   name: 'users',
   initialState: {
     users: [],
+    user: {
+      id: '',
+    },
     loading: LoadingStatus.NEVER,
     error: null,
   } as StateType,
   reducers: {
     setUsers(state: StateType, { payload }: PayloadAction<UserType[]>) {
       state.users = payload
+      state.loading = LoadingStatus.LOADED
+    },
+    setUser(state: StateType, { payload }: PayloadAction<UserType>) {
+      state.user = payload
       state.loading = LoadingStatus.LOADED
     },
     setUsersLoadingStatus(

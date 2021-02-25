@@ -7,3 +7,10 @@ export const fetchSearchUsers = async (value: string): Promise<UserType> => {
   })
   return payload
 }
+
+export const fetchUser = async (name: string): Promise<UserType> => {
+  const { payload }: ResponseApi = await request({
+    url: `users/${name}`,
+  })
+  return payload
+}

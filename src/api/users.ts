@@ -1,9 +1,33 @@
 import { UserType } from '../redux/users/types'
 import { request, ResponseApi } from '../utils/fetch'
 
-export const fetchSearchUsers = async (value: string): Promise<UserType> => {
+interface FetchSearchUsersInterface {
+  page: number
+  value: string
+}
+
+export const fetchSearchUsers = async ({
+  page,
+  value,
+}: FetchSearchUsersInterface): Promise<UserType[]> => {
   const { payload }: ResponseApi = await request({
-    url: `search/users?q=${value}`,
+    url: 'search/users',
+    params: {
+      q: value,
+      per_page: 50,
+      page,
+    },
+  })
+  return payload
+}
+
+export const fetchUsers = async (page: number): Promise<UserType[]> => {
+  const { payload }: ResponseApi = await request({
+    url: 'users',
+    params: {
+      per_page: 50,
+      page,
+    },
   })
   return payload
 }

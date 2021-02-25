@@ -23,6 +23,13 @@ const theme = createMuiTheme({
         height: '100%',
       },
     },
+    MuiInput: {
+      root: {
+        width: '100%',
+        marginTop: 30,
+        marginBottom: 30,
+      },
+    },
   },
 })
 

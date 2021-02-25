@@ -6,15 +6,17 @@ const { actions, reducer } = createSlice({
   name: 'users',
   initialState: {
     users: [],
-    user: {
-      id: '',
-    },
+    user: null,
     loading: LoadingStatus.NEVER,
     error: null,
   } as StateType,
   reducers: {
     setUsers(state: StateType, { payload }: PayloadAction<UserType[]>) {
       state.users = payload
+      state.loading = LoadingStatus.LOADED
+    },
+    setMoreUsers(state: StateType, { payload }: PayloadAction<UserType[]>) {
+      state.users = [...state.users, ...payload]
       state.loading = LoadingStatus.LOADED
     },
     setUser(state: StateType, { payload }: PayloadAction<UserType>) {
@@ -36,5 +38,11 @@ const { actions, reducer } = createSlice({
   },
 })
 
-export const { setUsers, setUsersLoadingStatus, setUsersErrorStatus } = actions
+export const {
+  setUsers,
+  setUser,
+  setMoreUsers,
+  setUsersLoadingStatus,
+  setUsersErrorStatus,
+} = actions
 export default reducer

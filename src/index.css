@@ -14,3 +14,11 @@ code {
   grid-template-rows: auto 1fr auto;
   height: 100vh;
 }
+
+.infinite-scroll-component {
+  display: grid;
+  row-gap: 30px;
+}
+.infinite-scroll-component__outerdiv {
+  width: 100%;
+}

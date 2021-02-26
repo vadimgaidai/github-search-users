@@ -10,6 +10,11 @@ export interface UserType {
   node_id: string
   avatar_url: string
   login: string
+  name: string
+  location: string
+  created_at: string
+  followers: number
+  following: number
 }
 
 export interface UsersSearchActionInterface {

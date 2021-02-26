@@ -2,18 +2,27 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { LoadingStatus, ErrorStatus } from '../currentTypes'
 import { UserType } from '../users/types'
-import { StateType } from './types'
+import { RepoType, StateType } from './types'
 
 const { actions, reducer } = createSlice({
   name: 'user',
   initialState: {
     user: null,
+    repos: [],
     loading: LoadingStatus.NEVER,
     error: null,
   } as StateType,
   reducers: {
-    setUser(state: StateType, { payload }: PayloadAction<UserType>) {
-      state.user = payload
+    setUser(
+      state: StateType,
+      { payload }: PayloadAction<{ user: UserType; repos: RepoType[] }>
+    ) {
+      state.user = payload.user
+      state.repos = payload.repos
+      state.loading = LoadingStatus.LOADED
+    },
+    setMoreRepos(state: StateType, { payload }: PayloadAction<RepoType[]>) {
+      state.repos = [...state.repos, ...payload]
       state.loading = LoadingStatus.LOADED
     },
     setUserLoadingStatus(
@@ -31,5 +40,10 @@ const { actions, reducer } = createSlice({
   },
 })
 
-export const { setUser, setUserLoadingStatus, setUserErrorStatus } = actions
+export const {
+  setUser,
+  setMoreRepos,
+  setUserLoadingStatus,
+  setUserErrorStatus,
+} = actions
 export default reducer

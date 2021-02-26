@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import {
-  Paper,
   Grid,
+  Box,
   Avatar,
   makeStyles,
   createStyles,
@@ -39,8 +39,10 @@ const UserCard: FC<UserCardTypes> = ({ image, name }: UserCardTypes) => {
       <Grid item xs={6}>
         <Avatar className={style.cardAvatar} alt={name} src={image} />
       </Grid>
-      <Grid item xs={6}>
-        <h2>{name}</h2>
+      <Grid container justify="flex-end">
+        <Box>
+          <h2>{name}</h2>
+        </Box>
       </Grid>
     </NavLink>
   )

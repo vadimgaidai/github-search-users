@@ -13,7 +13,7 @@ const App: FC = () => {
   }, [location])
 
   return (
-    <Container component="main" maxWidth="lg">
+    <Container component="main" maxWidth="md">
       <Switch>
         <Route path="/" component={Users} exact />
         <Route path="/user/:name" component={User} exact />

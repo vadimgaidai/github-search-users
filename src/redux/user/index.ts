@@ -15,7 +15,7 @@ const { actions, reducer } = createSlice({
   reducers: {
     setUser(
       state: StateType,
-      { payload }: PayloadAction<{ user: UserType; repos: RepoType[] }>
+      { payload }: PayloadAction<{ user: UserType | null; repos: RepoType[] }>
     ) {
       state.user = payload.user
       state.repos = payload.repos

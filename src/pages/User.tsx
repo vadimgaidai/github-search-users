@@ -9,6 +9,7 @@ import { RepoType, UserActionsType } from '../redux/user/types'
 
 import RepoCard from '../components/RepoCard'
 import Gallery from '../components/Gallery'
+import { setUser } from '../redux/user'
 
 interface UseParamsInterface {
   name: string
@@ -23,7 +24,7 @@ const User: FC = () => {
   const [searchResult, setSearchResult] = useState('')
   const [filteredRepos, setFilteredRepos] = useState<RepoType[]>([])
 
-  useEffect(() => {
+  useEffect((): (() => void) => {
     dispatch({
       type: UserActionsType.LOAD_USER,
       payload: {
@@ -31,6 +32,7 @@ const User: FC = () => {
         page,
       },
     })
+    return () => dispatch(setUser({ user: null, repos: [] }))
   }, [dispatch, name])
 
   useEffect(() => {

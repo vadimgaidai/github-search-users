@@ -1,4 +1,4 @@
-import { FC, ChangeEvent, useEffect, useState } from 'react'
+import { FC, ChangeEvent, useEffect, useState, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Grid, Input } from '@material-ui/core'
 
@@ -32,9 +32,14 @@ const Users: FC = () => {
     }
   }, [dispatch, searchValue, page])
 
-  const onSearchUsers = (event: ChangeEvent<HTMLInputElement>): void => {
-    setSearchValue(event.target.value)
-  }
+  const onSearchUsers = useCallback(
+    (event: ChangeEvent<HTMLInputElement>): void => {
+      setTimeout(() => {
+        setSearchValue(event.target.value)
+      }, 1500)
+    },
+    []
+  )
   const onLoadMoreUsers = (): void => {
     setPage((prevState) => prevState + 1)
   }

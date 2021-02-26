@@ -1,12 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { FC, ChangeEvent, useEffect, useState, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Grid, Input } from '@material-ui/core'
+import debounce from 'lodash.debounce'
 
 import { UsersActionsType } from '../redux/users/types'
 import { selectIsUsersMoreLoading, selectUsers } from '../redux/users/selectors'
 
 import UserCard from '../components/UserCard'
 import Gallery from '../components/Gallery'
+import { setUsers } from '../redux/users'
 
 const Users: FC = () => {
   const dispatch = useDispatch()
@@ -34,13 +37,13 @@ const Users: FC = () => {
   }, [dispatch, searchValue, page])
 
   const onSearchUsers = useCallback(
-    (event: ChangeEvent<HTMLInputElement>): void => {
-      setTimeout(() => {
-        setSearchValue(event.target.value)
-      }, 1500)
-    },
+    debounce((event: ChangeEvent<HTMLInputElement>) => {
+      dispatch(setUsers([]))
+      setSearchValue(event.target.value)
+    }, 500),
     []
   )
+
   const onLoadMoreUsers = (): void => {
     setPage((prevState) => prevState + 1)
   }

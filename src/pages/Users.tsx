@@ -1,7 +1,7 @@
 import { FC, ChangeEvent, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import { Grid, Input } from '@material-ui/core'
+import { Grid, Input, CircularProgress } from '@material-ui/core'
 
 import { UsersActionsType } from '../redux/users/types'
 import { selectUsers } from '../redux/users/selectors'
@@ -47,7 +47,7 @@ const Users: FC = () => {
           dataLength={users.length}
           hasMore
           next={onInfiniteLoadUsers}
-          loader={<h4>Loading...</h4>}
+          loader={<CircularProgress />}
         >
           {users?.map(({ node_id: id, avatar_url: avatar, login }) => (
             <UserCard key={id} image={avatar} name={login} />

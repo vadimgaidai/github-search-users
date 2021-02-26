@@ -30,6 +30,11 @@ const theme = createMuiTheme({
         marginBottom: 30,
       },
     },
+    MuiCircularProgress: {
+      root: {
+        margin: '20px auto 20px',
+      },
+    },
   },
 })
 

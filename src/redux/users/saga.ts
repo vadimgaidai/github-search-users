@@ -1,23 +1,23 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
-import { fetchSearchUsers, fetchUsers, fetchUser } from '../../api/users'
+import { fetchSearchUsers, fetchUsers } from '../../api/users'
 import { LoadingStatus } from '../currentTypes'
 import {
-  UsersSearchInterface,
+  UsersSearchActionInterface,
+  UsersActionInterface,
   UsersActionsType,
-  UserInterface,
-  UsersInterface,
 } from './types'
 
 import {
-  setUser,
   setUsers,
   setMoreUsers,
   setUsersErrorStatus,
   setUsersLoadingStatus,
 } from './index'
 
-export function* loadSearchUsers({ payload }: UsersSearchInterface): Generator {
+export function* loadSearchUsers({
+  payload,
+}: UsersSearchActionInterface): Generator {
   try {
     yield put(setUsersLoadingStatus(LoadingStatus.LOADING))
     const { items }: ReturnType<typeof Object> = yield call(
@@ -31,7 +31,7 @@ export function* loadSearchUsers({ payload }: UsersSearchInterface): Generator {
   }
 }
 
-export function* loadUsers({ payload }: UsersInterface): Generator {
+export function* loadUsers({ payload }: UsersActionInterface): Generator {
   try {
     yield put(setUsersLoadingStatus(LoadingStatus.LOADING))
     const data: ReturnType<typeof Object> = yield call(fetchUsers, payload)
@@ -42,19 +42,7 @@ export function* loadUsers({ payload }: UsersInterface): Generator {
   }
 }
 
-export function* loadUser({ payload }: UserInterface): Generator {
-  try {
-    yield put(setUsersLoadingStatus(LoadingStatus.LOADING))
-    const data: ReturnType<typeof Object> = yield call(fetchUser, payload)
-    yield put(setUser(data))
-  } catch ({ status }) {
-    yield put(setUsersLoadingStatus(LoadingStatus.ERROR))
-    yield put(setUsersErrorStatus(status))
-  }
-}
-
 export function* usersSaga(): Generator {
   yield takeLatest(UsersActionsType.LOAD_SEARCH_USERS, loadSearchUsers)
   yield takeLatest(UsersActionsType.LOAD_USERS, loadUsers)
-  yield takeLatest(UsersActionsType.LOAD_USER, loadUser)
 }

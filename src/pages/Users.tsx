@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Grid, Input } from '@material-ui/core'
 
 import { UsersActionsType } from '../redux/users/types'
-import { selectUsers } from '../redux/users/selectors'
+import { selectIsUsersMoreLoading, selectUsers } from '../redux/users/selectors'
 
 import UserCard from '../components/UserCard'
 import Gallery from '../components/Gallery'
@@ -11,6 +11,7 @@ import Gallery from '../components/Gallery'
 const Users: FC = () => {
   const dispatch = useDispatch()
   const users = useSelector(selectUsers)
+  const isMoreLoading = useSelector(selectIsUsersMoreLoading)
 
   const [page, setPage] = useState(1)
   const [searchValue, setSearchValue] = useState('')
@@ -48,7 +49,11 @@ const Users: FC = () => {
     <div>
       <Input onChange={onSearchUsers} placeholder="Search users" autoFocus />
       <Grid container spacing={3}>
-        <Gallery dataLength={users.length} onNext={onLoadMoreUsers}>
+        <Gallery
+          dataLength={users.length}
+          isHasMore={isMoreLoading}
+          onNext={onLoadMoreUsers}
+        >
           {users?.map(({ node_id: id, avatar_url: avatar, login }) => (
             <UserCard key={id} image={avatar} name={login} />
           ))}

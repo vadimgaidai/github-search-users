@@ -34,6 +34,7 @@ export interface RepoType {
 export interface StateType {
   user: UserType | null
   repos: RepoType[]
+  isMoreLoading: boolean
   loading: LoadingStatus
   error: ErrorStatus
 }

@@ -5,18 +5,20 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 interface GalleryTypes {
   children: ReactNode
   dataLength: number
+  isHasMore: boolean
   onNext: () => void
 }
 
 const Gallery: FC<GalleryTypes> = ({
   children,
   dataLength,
+  isHasMore,
   onNext,
 }: GalleryTypes) => (
   <Grid item xs={12}>
     <InfiniteScroll
       dataLength={dataLength}
-      hasMore
+      hasMore={isHasMore}
       next={() => onNext()}
       loader={<CircularProgress />}
     >

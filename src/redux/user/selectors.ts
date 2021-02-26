@@ -8,6 +8,9 @@ export const selectUserState = (state: RootState): StateType => state.user
 export const selectUser = (state: RootState): UserType | null =>
   selectUserState(state).user
 
+export const selectIsUserMoreLoading = (state: RootState): boolean =>
+  selectUserState(state).isMoreLoading
+
 export const selectRepos = (state: RootState): RepoType[] =>
   selectUserState(state).repos
 

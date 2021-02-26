@@ -27,9 +27,7 @@ export function* loadMoreRepos({ payload }: UserActionInterface): Generator {
   try {
     yield put(setUserLoadingStatus(LoadingStatus.LOADING))
     const repos: ReturnType<typeof Object> = yield call(fetchUserRepos, payload)
-    if (repos.length) {
-      yield put(setMoreRepos(repos))
-    }
+    yield put(setMoreRepos(repos))
   } catch ({ status }) {
     yield put(setUserLoadingStatus(LoadingStatus.ERROR))
     yield put(setUserErrorStatus(status))

@@ -9,6 +9,7 @@ const { actions, reducer } = createSlice({
   initialState: {
     user: null,
     repos: [],
+    isMoreLoading: true,
     loading: LoadingStatus.NEVER,
     error: null,
   } as StateType,
@@ -19,10 +20,15 @@ const { actions, reducer } = createSlice({
     ) {
       state.user = payload.user
       state.repos = payload.repos
+      state.isMoreLoading = true
       state.loading = LoadingStatus.LOADED
     },
     setMoreRepos(state: StateType, { payload }: PayloadAction<RepoType[]>) {
-      state.repos = [...state.repos, ...payload]
+      if (payload.length) {
+        state.repos = [...state.repos, ...payload]
+      } else {
+        state.isMoreLoading = false
+      }
       state.loading = LoadingStatus.LOADED
     },
     setUserLoadingStatus(

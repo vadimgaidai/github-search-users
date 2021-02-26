@@ -6,16 +6,22 @@ const { actions, reducer } = createSlice({
   name: 'users',
   initialState: {
     users: [],
+    isMoreLoading: true,
     loading: LoadingStatus.NEVER,
     error: null,
   } as StateType,
   reducers: {
     setUsers(state: StateType, { payload }: PayloadAction<UserType[]>) {
       state.users = payload
+      state.isMoreLoading = true
       state.loading = LoadingStatus.LOADED
     },
     setMoreUsers(state: StateType, { payload }: PayloadAction<UserType[]>) {
-      state.users = [...state.users, ...payload]
+      if (payload.length) {
+        state.users = [...state.users, ...payload]
+      } else {
+        state.isMoreLoading = false
+      }
       state.loading = LoadingStatus.LOADED
     },
     setUsersLoadingStatus(

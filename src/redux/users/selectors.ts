@@ -7,6 +7,9 @@ export const selectUsersState = (state: RootState): StateType => state.users
 export const selectUsers = (state: RootState): UserType[] =>
   selectUsersState(state).users
 
+export const selectIsUsersMoreLoading = (state: RootState): boolean =>
+  selectUsersState(state).isMoreLoading
+
 export const selectIsUsersLoadedError = (state: RootState): boolean =>
   selectUsersState(state).loading === LoadingStatus.ERROR
 

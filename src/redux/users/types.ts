@@ -31,6 +31,7 @@ export interface UsersActionInterface {
 }
 export interface StateType {
   users: UserType[]
+  isMoreLoading: boolean
   loading: LoadingStatus
   error: ErrorStatus
 }

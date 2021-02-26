@@ -4,7 +4,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router'
 import { Grid, Input } from '@material-ui/core'
 
-import { selectRepos, selectUser } from '../redux/user/selectors'
+import {
+  selectRepos,
+  selectUser,
+  selectIsUserMoreLoading,
+} from '../redux/user/selectors'
 import { RepoType, UserActionsType } from '../redux/user/types'
 
 import RepoCard from '../components/RepoCard'
@@ -19,6 +23,7 @@ const User: FC = () => {
   const { name }: UseParamsInterface = useParams()
   const user = useSelector(selectUser)
   const repos = useSelector(selectRepos)
+  const isMoreLoading = useSelector(selectIsUserMoreLoading)
 
   const [page, setPage] = useState(1)
   const [searchResult, setSearchResult] = useState('')
@@ -86,7 +91,11 @@ const User: FC = () => {
           <p>Following: {user?.following}</p>
         </Grid>
         <Input onChange={onSearchRepo} placeholder="Search repo" autoFocus />
-        <Gallery dataLength={repos.length} onNext={onLoadMoreRepos}>
+        <Gallery
+          dataLength={repos.length}
+          isHasMore={isMoreLoading}
+          onNext={onLoadMoreRepos}
+        >
           {filteredRepos?.map(
             ({
               node_id: id,

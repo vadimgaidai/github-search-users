@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { FC, useCallback, useEffect, useState } from 'react'
+import { ChangeEvent, FC, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router'
-import InfiniteScroll from 'react-infinite-scroll-component'
-import { Grid, CircularProgress } from '@material-ui/core'
+import { Grid, Input } from '@material-ui/core'
 
 import { selectRepos, selectUser } from '../redux/user/selectors'
-import { UserActionsType } from '../redux/user/types'
+import { RepoType, UserActionsType } from '../redux/user/types'
 
 import RepoCard from '../components/RepoCard'
+import Gallery from '../components/Gallery'
 
 interface UseParamsInterface {
   name: string
@@ -20,6 +20,8 @@ const User: FC = () => {
   const repos = useSelector(selectRepos)
 
   const [page, setPage] = useState(1)
+  const [searchResult, setSearchResult] = useState('')
+  const [filteredRepos, setFilteredRepos] = useState<RepoType[]>([])
 
   useEffect(() => {
     dispatch({
@@ -43,7 +45,19 @@ const User: FC = () => {
     }
   }, [dispatch, page])
 
-  const onInfiniteLoadMoreRepos = (): void => {
+  useEffect(() => {
+    setFilteredRepos(
+      searchResult
+        ? repos?.filter((item) =>
+            item?.name
+              .toLocaleLowerCase()
+              .match(searchResult.toLocaleLowerCase())
+          )
+        : repos
+    )
+  }, [repos, searchResult])
+
+  const onLoadMoreRepos = (): void => {
     setPage((prevState) => prevState + 1)
   }
 
@@ -51,6 +65,10 @@ const User: FC = () => {
     const date = new Date(user?.created_at || '')
     return `${date.getUTCDate()}.${date.getUTCMonth()}.${date.getUTCFullYear()}`
   }, [user])
+
+  const onSearchRepo = (event: ChangeEvent<HTMLInputElement>): void => {
+    setSearchResult(event.target.value)
+  }
 
   return (
     <div>
@@ -65,32 +83,26 @@ const User: FC = () => {
           <p>Followers: {user?.followers}</p>
           <p>Following: {user?.following}</p>
         </Grid>
-        <Grid item xs={12}>
-          <InfiniteScroll
-            dataLength={repos.length}
-            hasMore
-            next={onInfiniteLoadMoreRepos}
-            loader={<CircularProgress />}
-          >
-            {repos?.map(
-              ({
-                node_id: id,
-                name: repoName,
-                git_url: url,
-                forks_count: forks,
-                stargazers_count: stars,
-              }) => (
-                <RepoCard
-                  key={id}
-                  name={repoName}
-                  url={url}
-                  forks={forks}
-                  stars={stars}
-                />
-              )
-            )}
-          </InfiniteScroll>
-        </Grid>
+        <Input onChange={onSearchRepo} placeholder="Search repo" autoFocus />
+        <Gallery dataLength={repos.length} onNext={onLoadMoreRepos}>
+          {filteredRepos?.map(
+            ({
+              node_id: id,
+              name: repoName,
+              git_url: url,
+              forks_count: forks,
+              stargazers_count: stars,
+            }) => (
+              <RepoCard
+                key={id}
+                name={repoName}
+                url={url}
+                forks={forks}
+                stars={stars}
+              />
+            )
+          )}
+        </Gallery>
       </Grid>
     </div>
   )

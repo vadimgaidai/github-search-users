@@ -1,12 +1,12 @@
 import { FC, ChangeEvent, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import InfiniteScroll from 'react-infinite-scroll-component'
-import { Grid, Input, CircularProgress } from '@material-ui/core'
+import { Grid, Input } from '@material-ui/core'
 
 import { UsersActionsType } from '../redux/users/types'
 import { selectUsers } from '../redux/users/selectors'
 
 import UserCard from '../components/UserCard'
+import Gallery from '../components/Gallery'
 
 const Users: FC = () => {
   const dispatch = useDispatch()
@@ -35,7 +35,7 @@ const Users: FC = () => {
   const onSearchUsers = (event: ChangeEvent<HTMLInputElement>): void => {
     setSearchValue(event.target.value)
   }
-  const onInfiniteLoadUsers = (): void => {
+  const onLoadMoreUsers = (): void => {
     setPage((prevState) => prevState + 1)
   }
 
@@ -43,16 +43,11 @@ const Users: FC = () => {
     <div>
       <Input onChange={onSearchUsers} placeholder="Search users" autoFocus />
       <Grid container spacing={3}>
-        <InfiniteScroll
-          dataLength={users.length}
-          hasMore
-          next={onInfiniteLoadUsers}
-          loader={<CircularProgress />}
-        >
+        <Gallery dataLength={users.length} onNext={onLoadMoreUsers}>
           {users?.map(({ node_id: id, avatar_url: avatar, login }) => (
             <UserCard key={id} image={avatar} name={login} />
           ))}
-        </InfiniteScroll>
+        </Gallery>
       </Grid>
     </div>
   )

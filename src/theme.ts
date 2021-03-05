@@ -11,7 +11,7 @@ const theme = createMuiTheme({
       main: lightBlue[500],
     },
     text: {
-      primary: 'white',
+      primary: grey[100],
     },
     background: {
       default: grey.A400,
@@ -33,6 +33,11 @@ const theme = createMuiTheme({
     MuiCircularProgress: {
       root: {
         margin: '20px auto 20px',
+      },
+    },
+    MuiPaper: {
+      root: {
+        backgroundColor: lightBlue[500],
       },
     },
   },

@@ -14,6 +14,9 @@ export const selectIsUserMoreLoading = (state: RootState): boolean =>
 export const selectRepos = (state: RootState): RepoType[] =>
   selectUserState(state).repos
 
+export const selectIsUserLoading = (state: RootState): boolean =>
+  selectUserState(state).loading !== LoadingStatus.LOADING
+
 export const selectIsUserLoadedError = (state: RootState): boolean =>
   selectUserState(state).loading === LoadingStatus.ERROR
 

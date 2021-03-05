@@ -13,7 +13,7 @@ const Footer: FC = () => {
   const style = useStyles()
   return (
     <footer>
-      <Box m={1} className={style.box}>
+      <Box m={3} className={style.box}>
         <Link
           href="https://github.com/vadimgaidai"
           color="primary"

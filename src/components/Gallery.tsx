@@ -3,20 +3,23 @@ import { Grid, CircularProgress } from '@material-ui/core'
 import InfiniteScroll from 'react-infinite-scroll-component'
 
 interface GalleryTypes {
-  children: ReactNode
+  className?: string
   dataLength: number
   isHasMore: boolean
+  children: ReactNode
   onNext: () => void
 }
 
 const Gallery: FC<GalleryTypes> = ({
-  children,
+  className,
   dataLength,
   isHasMore,
+  children,
   onNext,
 }: GalleryTypes) => (
   <Grid item xs={12}>
     <InfiniteScroll
+      className={className}
       dataLength={dataLength}
       hasMore={isHasMore}
       next={() => onNext()}

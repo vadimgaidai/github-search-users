@@ -9,7 +9,6 @@ import { selectIsUsersMoreLoading, selectUsers } from '../redux/users/selectors'
 
 import UserCard from '../components/UserCard'
 import Gallery from '../components/Gallery'
-import { setUsers } from '../redux/users'
 
 const Users: FC = () => {
   const dispatch = useDispatch()
@@ -38,15 +37,12 @@ const Users: FC = () => {
 
   const onSearchUsers = useCallback(
     debounce((event: ChangeEvent<HTMLInputElement>) => {
-      dispatch(setUsers([]))
       setSearchValue(event.target.value)
     }, 500),
     []
   )
 
-  const onLoadMoreUsers = (): void => {
-    setPage((prevState) => prevState + 1)
-  }
+  const onLoadMoreUsers = (): void => setPage((prevState) => prevState + 1)
 
   return (
     <div>

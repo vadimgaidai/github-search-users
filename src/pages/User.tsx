@@ -21,7 +21,6 @@ import { RepoType, UserActionsType } from '../redux/user/types'
 
 import RepoCard from '../components/RepoCard'
 import Gallery from '../components/Gallery'
-import { setUser } from '../redux/user'
 
 interface UseParamsInterface {
   name: string
@@ -73,7 +72,7 @@ const User: FC = () => {
   const [searchResult, setSearchResult] = useState('')
   const [filteredRepos, setFilteredRepos] = useState<RepoType[]>([])
 
-  useEffect((): (() => void) => {
+  useEffect(() => {
     dispatch({
       type: UserActionsType.LOAD_USER,
       payload: {
@@ -81,7 +80,6 @@ const User: FC = () => {
         page,
       },
     })
-    return () => dispatch(setUser({ user: null, repos: [] }))
   }, [dispatch, name])
 
   useEffect(() => {
@@ -151,7 +149,7 @@ const User: FC = () => {
               Location: {user?.location ?? 'No location'}
             </p>
           ) : (
-            <Skeleton animation="wave" variant="text" width={200} />
+            <Skeleton animation="wave" variant="text" width={100} />
           )}
           {isUserLoading ? (
             <p className={style.text}>
@@ -159,25 +157,30 @@ const User: FC = () => {
               {user?.created_at ? getDate(user?.created_at) : 'No join date'}
             </p>
           ) : (
-            <Skeleton animation="wave" variant="text" width={200} />
+            <Skeleton animation="wave" variant="text" width={100} />
           )}
           {isUserLoading ? (
             <p className={style.text}>
               Followers: {user?.followers ?? 'No followers'}
             </p>
           ) : (
-            <Skeleton animation="wave" variant="text" width={200} />
+            <Skeleton animation="wave" variant="text" width={100} />
           )}
           {isUserLoading ? (
             <p className={style.text}>
               Following: {user?.following ?? 'No following'}
             </p>
           ) : (
-            <Skeleton animation="wave" variant="text" width={200} />
+            <Skeleton animation="wave" variant="text" width={100} />
           )}
         </Typography>
       </div>
-      <Input onChange={onSearchRepo} placeholder="Search repo" autoFocus />
+      <Input
+        disabled={!isUserLoading}
+        type="text"
+        placeholder="Search repo"
+        onChange={onSearchRepo}
+      />
       <Gallery
         dataLength={repos.length}
         isHasMore={isMoreLoading}
@@ -190,15 +193,24 @@ const User: FC = () => {
             git_url: url,
             forks_count: forks,
             stargazers_count: stars,
-          }) => (
-            <RepoCard
-              key={id}
-              name={repoName}
-              url={url}
-              forks={forks}
-              stars={stars}
-            />
-          )
+          }) =>
+            isUserLoading ? (
+              <RepoCard
+                key={id}
+                name={repoName}
+                url={url}
+                forks={forks}
+                stars={stars}
+              />
+            ) : (
+              <Skeleton
+                key={id}
+                animation="wave"
+                variant="text"
+                width="100%"
+                height={100}
+              />
+            )
         )}
       </Gallery>
     </>

@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import debounce from 'lodash.debounce'
 import { FC, ChangeEvent, useEffect, useState, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Grid, Input } from '@material-ui/core'
-import debounce from 'lodash.debounce'
 
 import { UsersActionsType } from '../redux/users/types'
 import { selectIsUsersMoreLoading, selectUsers } from '../redux/users/selectors'
@@ -12,6 +12,7 @@ import Gallery from '../components/Gallery'
 
 const Users: FC = () => {
   const dispatch = useDispatch()
+
   const users = useSelector(selectUsers)
   const isMoreLoading = useSelector(selectIsUsersMoreLoading)
 
@@ -45,8 +46,13 @@ const Users: FC = () => {
   const onLoadMoreUsers = (): void => setPage((prevState) => prevState + 1)
 
   return (
-    <div>
-      <Input onChange={onSearchUsers} placeholder="Search users" autoFocus />
+    <>
+      <Input
+        disabled={users.length === 0}
+        type="text"
+        placeholder="Search users"
+        onChange={onSearchUsers}
+      />
       <Grid container spacing={3}>
         <Gallery
           dataLength={users.length}
@@ -58,7 +64,7 @@ const Users: FC = () => {
           ))}
         </Gallery>
       </Grid>
-    </div>
+    </>
   )
 }
 

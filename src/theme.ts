@@ -29,9 +29,15 @@ const theme = createMuiTheme({
         marginTop: 30,
         marginBottom: 30,
       },
+      underline: {
+        '&::before': {
+          borderColor: lightBlue[400],
+        },
+      },
     },
     MuiCircularProgress: {
       root: {
+        display: 'block',
         margin: '20px auto 20px',
       },
     },

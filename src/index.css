@@ -22,13 +22,14 @@ img {
 
 .infinite-scroll-component {
   position: relative;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  height: 100%;
-  column-gap: 30px;
-  row-gap: 30px;
+  width: 100%;
+  overflow: hidden;
 }
 
 .infinite-scroll-component__outerdiv {
   width: 100%;
+}
+
+.MuiSkeleton-root {
+  transform: scale(1) !important;
 }

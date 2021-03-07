@@ -2,15 +2,32 @@
 import debounce from 'lodash.debounce'
 import { FC, ChangeEvent, useEffect, useState, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Grid, Input } from '@material-ui/core'
+import {
+  createStyles,
+  makeStyles,
+  Grid,
+  Input,
+  Avatar,
+} from '@material-ui/core'
 
 import { UsersActionsType } from '../redux/users/types'
 import { selectIsUsersMoreLoading, selectUsers } from '../redux/users/selectors'
 
-import UserCard from '../components/UserCard'
 import Gallery from '../components/Gallery'
+import Card from '../components/Card'
+
+const useStyles = makeStyles(() =>
+  createStyles({
+    avatar: {
+      width: 70,
+      height: 70,
+      objectFit: 'cover',
+    },
+  })
+)
 
 const Users: FC = () => {
+  const style = useStyles()
   const dispatch = useDispatch()
 
   const users = useSelector(selectUsers)
@@ -60,7 +77,14 @@ const Users: FC = () => {
           onNext={onLoadMoreUsers}
         >
           {users?.map(({ node_id: id, avatar_url: avatar, login }) => (
-            <UserCard key={id} image={avatar} name={login} />
+            <Card key={id} to={`user/${login}`}>
+              <Grid item xs={6}>
+                <Avatar className={style.avatar} alt={login} src={avatar} />
+              </Grid>
+              <Grid container justify="flex-end">
+                <h2>{login}</h2>
+              </Grid>
+            </Card>
           ))}
         </Gallery>
       </Grid>

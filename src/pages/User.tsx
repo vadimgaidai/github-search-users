@@ -8,6 +8,7 @@ import {
   Input,
   Avatar,
   Typography,
+  Grid,
 } from '@material-ui/core'
 import { Skeleton } from '@material-ui/lab'
 
@@ -19,8 +20,8 @@ import {
 } from '../redux/user/selectors'
 import { RepoType, UserActionsType } from '../redux/user/types'
 
-import RepoCard from '../components/RepoCard'
 import Gallery from '../components/Gallery'
+import Card from '../components/Card'
 
 interface UseParamsInterface {
   name: string
@@ -28,7 +29,7 @@ interface UseParamsInterface {
 
 const useStyles = makeStyles(() =>
   createStyles({
-    card: {
+    info: {
       display: 'grid',
       gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr));',
       columnGap: 30,
@@ -52,7 +53,7 @@ const useStyles = makeStyles(() =>
       margin: 0,
     },
     text: {
-      fontSize: 18,
+      fontSize: 16,
       margin: 0,
     },
   })
@@ -124,7 +125,7 @@ const User: FC = () => {
 
   return (
     <>
-      <div className={style.card}>
+      <div className={style.info}>
         {isUserLoading ? (
           <Avatar
             className={style.avatar}
@@ -195,20 +196,32 @@ const User: FC = () => {
             stargazers_count: stars,
           }) =>
             isUserLoading ? (
-              <RepoCard
+              <Card
                 key={id}
-                name={repoName}
-                url={url}
-                forks={forks}
-                stars={stars}
-              />
+                href={url.replace('git:', 'https:')}
+                target="_blank"
+              >
+                <Grid item xs={9}>
+                  <h2>{repoName}</h2>
+                </Grid>
+                <Grid item xs={3}>
+                  <Typography
+                    className={style.typography}
+                    component="div"
+                    align="right"
+                  >
+                    <p className={style.text}>Forks: {forks}</p>
+                    <p className={style.text}>Stars: {stars}</p>
+                  </Typography>
+                </Grid>
+              </Card>
             ) : (
               <Skeleton
                 key={id}
                 animation="wave"
                 variant="text"
                 width="100%"
-                height={100}
+                height={90}
               />
             )
         )}

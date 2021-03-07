@@ -23,7 +23,7 @@ img {
 .infinite-scroll-component {
   position: relative;
   width: 100%;
-  overflow: hidden;
+  overflow: inherit !important;
 }
 
 .infinite-scroll-component__outerdiv {

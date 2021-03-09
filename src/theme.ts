@@ -8,7 +8,7 @@ const theme = createMuiTheme({
   },
   palette: {
     primary: {
-      main: lightBlue[500],
+      main: lightBlue[600],
     },
     text: {
       primary: grey[100],
@@ -31,7 +31,7 @@ const theme = createMuiTheme({
       },
       underline: {
         '&::before': {
-          borderColor: lightBlue[400],
+          borderColor: lightBlue[300],
         },
       },
     },
@@ -43,7 +43,7 @@ const theme = createMuiTheme({
     },
     MuiPaper: {
       root: {
-        backgroundColor: lightBlue[500],
+        backgroundColor: lightBlue[600],
       },
     },
   },

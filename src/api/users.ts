@@ -20,7 +20,7 @@ export const fetchSearchUsers = async ({
     url: 'search/users',
     params: {
       q: value,
-      per_page: 50,
+      per_page: 30,
       page,
     },
   })
@@ -31,8 +31,7 @@ export const fetchUsers = async (page: number): Promise<UserType[]> => {
   const { payload }: ResponseApi = await request({
     url: 'users',
     params: {
-      per_page: 50,
-      page,
+      since: page,
     },
   })
   return payload

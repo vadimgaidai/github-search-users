@@ -25,7 +25,6 @@ const {
 const defaultHeaders = {
   'Content-Type': 'application/json',
 }
-const esc = encodeURIComponent
 
 export async function request({
   url,

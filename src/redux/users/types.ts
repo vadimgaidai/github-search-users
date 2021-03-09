@@ -29,6 +29,7 @@ export interface UsersActionInterface {
   type: UsersActionsType.LOAD_USERS
   payload: number
 }
+
 export interface StateType {
   users: UserType[]
   isMoreLoading: boolean

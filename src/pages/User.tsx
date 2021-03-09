@@ -184,7 +184,7 @@ const User: FC = () => {
       />
       <Gallery
         dataLength={repos.length}
-        isHasMore={isMoreLoading}
+        isHasMore={!searchResult && isMoreLoading}
         onNext={onLoadMoreRepos}
       >
         {filteredRepos?.map(

@@ -10,6 +10,9 @@ export const selectUsers = (state: RootState): UserType[] =>
 export const selectIsUsersMoreLoading = (state: RootState): boolean =>
   selectUsersState(state).isMoreLoading
 
+export const selectIsUsersNeverLoading = (state: RootState): boolean =>
+  selectUsersState(state).loading === LoadingStatus.NEVER
+
 export const selectIsUsersLoadedError = (state: RootState): boolean =>
   selectUsersState(state).loading === LoadingStatus.ERROR
 

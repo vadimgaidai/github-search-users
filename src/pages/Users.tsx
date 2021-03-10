@@ -11,7 +11,11 @@ import {
 } from '@material-ui/core'
 
 import { UsersActionsType } from '../redux/users/types'
-import { selectIsUsersMoreLoading, selectUsers } from '../redux/users/selectors'
+import {
+  selectUsers,
+  selectIsUsersNeverLoading,
+  selectIsUsersMoreLoading,
+} from '../redux/users/selectors'
 
 import Gallery from '../components/Gallery'
 import Card from '../components/Card'
@@ -32,8 +36,9 @@ const Users: FC = () => {
 
   const users = useSelector(selectUsers)
   const isMoreLoading = useSelector(selectIsUsersMoreLoading)
+  const isUsersNeverLoading = useSelector(selectIsUsersNeverLoading)
 
-  const [page, setPage] = useState(1)
+  const [page, setPage] = useState(0)
   const [searchValue, setSearchValue] = useState('')
 
   useEffect(() => {
@@ -45,13 +50,17 @@ const Users: FC = () => {
           page,
         },
       })
-    } else {
+    }
+  }, [dispatch, searchValue, page])
+
+  useEffect(() => {
+    if (isUsersNeverLoading) {
       dispatch({
         type: UsersActionsType.LOAD_USERS,
         payload: page,
       })
     }
-  }, [dispatch, searchValue, page])
+  }, [dispatch])
 
   const onSearchUsers = useCallback(
     debounce((event: ChangeEvent<HTMLInputElement>) => {
@@ -60,7 +69,14 @@ const Users: FC = () => {
     []
   )
 
-  const onLoadMoreUsers = (): void => setPage((prevState) => prevState + 1)
+  const onLoadMoreUsers = (): void => {
+    const pageNumber = users[users.length - 1]?.id + 1
+    setPage(pageNumber)
+    dispatch({
+      type: UsersActionsType.LOAD_USERS,
+      payload: pageNumber,
+    })
+  }
 
   return (
     <>

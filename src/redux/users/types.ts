@@ -7,6 +7,7 @@ export enum UsersActionsType {
 }
 
 export interface UserType {
+  id: number
   node_id: string
   avatar_url: string
   login: string

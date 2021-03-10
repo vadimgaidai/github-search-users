@@ -20,7 +20,7 @@ export const fetchSearchUsers = async ({
     url: 'search/users',
     params: {
       q: value,
-      per_page: 30,
+      per_page: 50,
       page,
     },
   })
@@ -32,6 +32,7 @@ export const fetchUsers = async (page: number): Promise<UserType[]> => {
     url: 'users',
     params: {
       since: page,
+      per_page: 50,
     },
   })
   return payload

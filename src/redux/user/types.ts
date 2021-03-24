@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { LoadingStatus, ErrorStatus } from '../currentTypes'
+import { LoadingStatus } from '../currentTypes'
 import { UserType } from '../users/types'
 
 export enum UserActionsType {
@@ -36,5 +36,4 @@ export interface StateType {
   repos: RepoType[]
   isMoreLoading: boolean
   loading: LoadingStatus
-  error: ErrorStatus
 }

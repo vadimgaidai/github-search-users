@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import debounce from 'lodash.debounce'
-import { FC, ChangeEvent, useEffect, useState, useCallback } from 'react'
+import { FC, ChangeEvent, useEffect, useState, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   createStyles,
@@ -11,10 +11,14 @@ import {
 } from '@material-ui/core'
 
 import { UsersActionsType } from '../redux/users/types'
+import { setPage, setSearchValue } from '../redux/users'
 import {
   selectUsers,
   selectIsUsersNeverLoading,
   selectIsUsersMoreLoading,
+  selectPage,
+  selectSearchValue,
+  selectIsUsersLoadedError,
 } from '../redux/users/selectors'
 
 import Gallery from '../components/Gallery'
@@ -36,13 +40,19 @@ const Users: FC = () => {
 
   const users = useSelector(selectUsers)
   const isMoreLoading = useSelector(selectIsUsersMoreLoading)
+  const page = useSelector(selectPage)
+  const searchValue = useSelector(selectSearchValue)
   const isUsersNeverLoading = useSelector(selectIsUsersNeverLoading)
+  const isUsersErrorLoading = useSelector(selectIsUsersLoadedError)
 
-  const [page, setPage] = useState(0)
-  const [searchValue, setSearchValue] = useState('')
+  const [inputValue, setInputValue] = useState(searchValue)
 
   useEffect(() => {
-    if (searchValue) {
+    if (isUsersNeverLoading) {
+      dispatch({
+        type: UsersActionsType.LOAD_USERS,
+      })
+    } else if (searchValue) {
       dispatch({
         type: UsersActionsType.LOAD_SEARCH_USERS,
         payload: {
@@ -51,31 +61,43 @@ const Users: FC = () => {
         },
       })
     }
-  }, [dispatch, searchValue, page])
+  }, [dispatch, searchValue])
 
-  useEffect(() => {
-    if (isUsersNeverLoading) {
+  const sendQuery = (value: string) => {
+    dispatch(setSearchValue(value))
+    if (!value) {
       dispatch({
         type: UsersActionsType.LOAD_USERS,
-        payload: page,
       })
     }
-  }, [dispatch])
+  }
 
-  const onSearchUsers = useCallback(
-    debounce((event: ChangeEvent<HTMLInputElement>) => {
-      setSearchValue(event.target.value)
-    }, 500),
-    []
-  )
+  const delayedInputValue = useRef(
+    debounce((value: string): void => sendQuery(value), 500)
+  ).current
+
+  const onSearchUsers = (event: ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value)
+    delayedInputValue(event.target.value)
+  }
 
   const onLoadMoreUsers = (): void => {
-    const pageNumber = users[users.length - 1]?.id + 1
-    setPage(pageNumber)
-    dispatch({
-      type: UsersActionsType.LOAD_USERS,
-      payload: pageNumber,
-    })
+    if (searchValue) {
+      const newPageNumber = page + 1
+      dispatch(setPage(newPageNumber))
+      dispatch({
+        type: UsersActionsType.LOAD_SEARCH_USERS,
+        payload: {
+          value: searchValue,
+          page: newPageNumber,
+        },
+      })
+    } else {
+      dispatch({
+        type: UsersActionsType.LOAD_USERS,
+        payload: users[users.length - 1]?.id + 1,
+      })
+    }
   }
 
   return (
@@ -84,11 +106,13 @@ const Users: FC = () => {
         disabled={users.length === 0}
         type="text"
         placeholder="Search users"
+        value={inputValue}
         onChange={onSearchUsers}
       />
       <Grid container spacing={3}>
         <Gallery
           dataLength={users.length}
+          isError={isUsersErrorLoading}
           isHasMore={isMoreLoading}
           onNext={onLoadMoreUsers}
         >

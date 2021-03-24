@@ -4,6 +4,7 @@ import { Container } from '@material-ui/core'
 
 import Users from './pages/Users'
 import User from './pages/User'
+import Notifier from './components/Notifier'
 
 const App: FC = () => {
   const location = useLocation()
@@ -14,6 +15,7 @@ const App: FC = () => {
 
   return (
     <Container component="main" maxWidth="md">
+      <Notifier />
       <Switch>
         <Route path="/" component={Users} exact />
         <Route path="/user/:name" component={User} exact />

@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { LoadingStatus, ErrorStatus } from '../currentTypes'
+import { LoadingStatus } from '../currentTypes'
 
 export enum UsersActionsType {
   LOAD_SEARCH_USERS = 'users/LOAD_SEARCH_USERS',
@@ -33,7 +33,8 @@ export interface UsersActionInterface {
 
 export interface StateType {
   users: UserType[]
+  searchValue: string
+  page: number
   isMoreLoading: boolean
   loading: LoadingStatus
-  error: ErrorStatus
 }

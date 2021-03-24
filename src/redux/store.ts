@@ -3,12 +3,13 @@ import createSagaMiddleware from 'redux-saga'
 
 import users from './users'
 import user from './user'
+import notifications from './notifications'
 
 import sagas from './sagas'
 
 const sagaMiddleware = createSagaMiddleware()
 
-const reducer = combineReducers({ users, user })
+const reducer = combineReducers({ users, user, notifications })
 
 const store = configureStore({
   reducer,

@@ -3,6 +3,5 @@ export enum LoadingStatus {
   LOADING = 'LOADING',
   ERROR = 'ERROR',
   NEVER = 'NEVER',
+  LIMIT_API = 403,
 }
-
-export type ErrorStatus = number | null

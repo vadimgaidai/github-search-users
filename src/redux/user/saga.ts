@@ -4,12 +4,8 @@ import { fetchUser, fetchUserRepos } from '../../api/users'
 import { LoadingStatus } from '../currentTypes'
 import { UserActionInterface, UserActionsType } from './types'
 
-import {
-  setMoreRepos,
-  setUser,
-  setUserErrorStatus,
-  setUserLoadingStatus,
-} from './index'
+import { setMoreRepos, setUser, setUserLoadingStatus } from './index'
+import { setNotification } from '../notifications'
 
 export function* loadUser({ payload }: UserActionInterface): Generator {
   try {
@@ -19,7 +15,17 @@ export function* loadUser({ payload }: UserActionInterface): Generator {
     yield put(setUser({ user, repos }))
   } catch ({ status }) {
     yield put(setUserLoadingStatus(LoadingStatus.ERROR))
-    yield put(setUserErrorStatus(status))
+    yield put(
+      setNotification({
+        message:
+          status === LoadingStatus.LIMIT_API
+            ? 'API rate limit exceeded'
+            : 'Failed fetching users',
+        options: {
+          variant: 'error',
+        },
+      })
+    )
   }
 }
 
@@ -29,7 +35,17 @@ export function* loadMoreRepos({ payload }: UserActionInterface): Generator {
     yield put(setMoreRepos(repos))
   } catch ({ status }) {
     yield put(setUserLoadingStatus(LoadingStatus.ERROR))
-    yield put(setUserErrorStatus(status))
+    yield put(
+      setNotification({
+        message:
+          status === LoadingStatus.LIMIT_API
+            ? 'API rate limit exceeded'
+            : 'Failed fetching users',
+        options: {
+          variant: 'error',
+        },
+      })
+    )
   }
 }
 

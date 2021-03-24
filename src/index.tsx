@@ -2,6 +2,7 @@ import ReactDOM from 'react-dom'
 import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { ThemeProvider, CssBaseline } from '@material-ui/core'
+import { SnackbarProvider } from 'notistack'
 
 import materialUiTheme from './theme'
 import store from './redux/store'
@@ -19,9 +20,17 @@ ReactDOM.render(
     <CssBaseline />
     <Provider store={store}>
       <BrowserRouter>
-        <Header />
-        <App />
-        <Footer />
+        <SnackbarProvider
+          maxSnack={6}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+        >
+          <Header />
+          <App />
+          <Footer />
+        </SnackbarProvider>
       </BrowserRouter>
     </Provider>
   </ThemeProvider>,

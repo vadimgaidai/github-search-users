@@ -1,4 +1,4 @@
-import { LoadingStatus, ErrorStatus } from '../currentTypes'
+import { LoadingStatus } from '../currentTypes'
 import { RootState } from '../store'
 import { UserType } from '../users/types'
 import { RepoType, StateType } from './types'
@@ -19,6 +19,3 @@ export const selectIsUserLoading = (state: RootState): boolean =>
 
 export const selectIsUserLoadedError = (state: RootState): boolean =>
   selectUserState(state).loading === LoadingStatus.ERROR
-
-export const selectErrorStatus = (state: RootState): ErrorStatus =>
-  selectUserState(state).error

@@ -1,8 +1,10 @@
+import { VariantType } from 'notistack'
+
 export interface NotificationType {
   message: string
   options: {
     key?: string
-    variant: string
+    variant: VariantType
   }
 }
 

@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction, nanoid } from '@reduxjs/toolkit'
+import { SnackbarKey } from 'notistack'
 import { StateType, NotificationType } from './types'
 
 const { actions, reducer } = createSlice({
@@ -16,7 +17,10 @@ const { actions, reducer } = createSlice({
         options: { key: nanoid(), ...options },
       })
     },
-    removeNotification(state: StateType, { payload }: PayloadAction<string>) {
+    removeNotification(
+      state: StateType,
+      { payload }: PayloadAction<string | SnackbarKey>
+    ) {
       state.notifications = state.notifications.filter(
         ({ options: { key } }) => key !== payload
       )

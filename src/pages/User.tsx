@@ -2,6 +2,7 @@
 import { ChangeEvent, FC, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router'
+import { NavLink } from 'react-router-dom'
 import {
   createStyles,
   makeStyles,
@@ -11,12 +12,14 @@ import {
   Grid,
 } from '@material-ui/core'
 import { Skeleton } from '@material-ui/lab'
+import ArrowBackIcon from '@material-ui/icons/ArrowBack'
 
 import {
   selectRepos,
   selectUser,
   selectIsUserLoading,
   selectIsUserMoreLoading,
+  selectIsUserLoadedError,
 } from '../redux/user/selectors'
 import { RepoType, UserActionsType } from '../redux/user/types'
 
@@ -29,6 +32,27 @@ interface UseParamsInterface {
 
 const useStyles = makeStyles(() =>
   createStyles({
+    link: {
+      display: 'grid',
+      gridTemplateColumns: 'auto 1fr',
+      textDecoration: 'none',
+      marginBottom: 30,
+      color: '#fff',
+      columnGap: 10,
+
+      '& svg': {
+        transition: 'all 0.1s ease-in',
+      },
+
+      '&:hover': {
+        '& svg': {
+          transform: 'translateX(-5px)',
+        },
+      },
+    },
+    linkText: {
+      alignSelf: 'center',
+    },
     info: {
       display: 'grid',
       gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr));',
@@ -68,6 +92,7 @@ const User: FC = () => {
   const repos = useSelector(selectRepos)
   const isUserLoading = useSelector(selectIsUserLoading)
   const isMoreLoading = useSelector(selectIsUserMoreLoading)
+  const isUserErrorLoading = useSelector(selectIsUserLoadedError)
 
   const [page, setPage] = useState(1)
   const [searchResult, setSearchResult] = useState('')
@@ -125,6 +150,10 @@ const User: FC = () => {
 
   return (
     <>
+      <NavLink className={style.link} to="/">
+        <ArrowBackIcon />
+        <span className={style.linkText}>Back to users page</span>
+      </NavLink>
       <div className={style.info}>
         {isUserLoading ? (
           <Avatar
@@ -184,6 +213,7 @@ const User: FC = () => {
       />
       <Gallery
         dataLength={repos.length}
+        isError={isUserErrorLoading}
         isHasMore={!searchResult && isMoreLoading}
         onNext={onLoadMoreRepos}
       >

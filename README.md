@@ -1,10 +1,16 @@
-# GitHub users search
+# GitHub users searcher
 
 This React application that is able to search through [GitHub]https://github.com). users and their corresponding projects using the [GitHub api](https://docs.github.com/en/rest).
 
-## Available Scripts
+## Description
 
-In the project directory, you can run:
+- The first screen contains a search bar that can search through any user on the GitHub website at the top with a list of results underneath. Each item contains the avatar image, username.
+
+- Tapping on a user bring up a screen that contains the profile details of that user. The view contains their avatar image, username, number of followers, number of following, biography, email, location, join date, and a list of public repositories with a search bar at the top. Each item of the list view shall contain the name of the repository, the number of stars, and the Number of forks.
+
+- Tapping on a repository shall bring the user to a web browser and open the repository in the GitHub website.
+
+## In the project directory, you can run:
 
 ### `yarn start`
 
@@ -23,19 +29,3 @@ The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).

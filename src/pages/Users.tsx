@@ -52,20 +52,21 @@ const Users: FC = () => {
       dispatch({
         type: UsersActionsType.LOAD_USERS,
       })
-    } else if (searchValue) {
-      dispatch({
-        type: UsersActionsType.LOAD_SEARCH_USERS,
-        payload: {
-          value: searchValue,
-          page,
-        },
-      })
     }
-  }, [dispatch, searchValue])
+  }, [dispatch])
 
   const sendQuery = (value: string) => {
     dispatch(setSearchValue(value))
-    if (!value) {
+    dispatch(setPage(1))
+    if (value) {
+      dispatch({
+        type: UsersActionsType.LOAD_SEARCH_USERS,
+        payload: {
+          value,
+          page: 1,
+        },
+      })
+    } else {
       dispatch({
         type: UsersActionsType.LOAD_USERS,
       })

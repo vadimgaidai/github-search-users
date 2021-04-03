@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { ChangeEvent, FC, useCallback, useEffect, useState } from 'react'
+import { ChangeEvent, FC, useMemo, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router'
 import { NavLink } from 'react-router-dom'
@@ -136,13 +136,15 @@ const User: FC = () => {
     setPage((prevState) => prevState + 1)
   }
 
-  const getDate = useCallback(
-    (userDate) => {
-      const date = new Date(userDate)
-      return `${date.getUTCDate()}.${date.getUTCMonth()}.${date.getUTCFullYear()}`
-    },
-    [user]
-  )
+  const userDate = useMemo((): string | null => {
+    if (user?.created_at) {
+      const date = new Date(user?.created_at)
+      return `${date.getUTCDate()}.${
+        date.getUTCMonth() + 1
+      }.${date.getUTCFullYear()}`
+    }
+    return null
+  }, [user?.created_at])
 
   const onSearchRepo = (event: ChangeEvent<HTMLInputElement>): void => {
     setSearchResult(event.target.value)
@@ -183,8 +185,7 @@ const User: FC = () => {
           )}
           {isUserLoading ? (
             <p className={style.text}>
-              Join date:{' '}
-              {user?.created_at ? getDate(user?.created_at) : 'No join date'}
+              Join date: {userDate ?? 'No join date'}
             </p>
           ) : (
             <Skeleton animation="wave" variant="text" width={100} />

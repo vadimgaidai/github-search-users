@@ -1,11 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { stringify } from 'query-string'
 
-export interface ResponseApi {
-  payload: any
-  status: number
-}
-
 interface Fetch {
   url: string
   body?: any
@@ -26,13 +21,16 @@ const defaultHeaders = {
   'Content-Type': 'application/json',
 }
 
-export async function request({
+export async function request<T>({
   url,
   body,
   params,
   method = 'GET',
   headers = defaultHeaders,
-}: Fetch): Promise<ResponseApi> {
+}: Fetch): Promise<{
+  payload: T
+  status: number
+}> {
   const response = await fetch(
     `${REACT_APP_API}${url}?${stringify({
       ...params,
@@ -46,11 +44,10 @@ export async function request({
     }
   )
   const data = await response.json()
-
   return response?.ok
-    ? {
+    ? Promise.resolve({
         payload: data,
         status: response.status,
-      }
+      })
     : Promise.reject(response)
 }

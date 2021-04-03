@@ -18,6 +18,11 @@ export interface UserType {
   following: number
 }
 
+export interface SearchUsersType {
+  incomplete_results: boolean
+  items: UserType[]
+  total_count: number
+}
 export interface UsersSearchActionInterface {
   type: UsersActionsType.LOAD_SEARCH_USERS
   payload: {

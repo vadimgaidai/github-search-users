@@ -1,17 +1,19 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { call, put, takeLatest } from 'redux-saga/effects'
 
-import { fetchUser, fetchUserRepos } from '../../api/users'
+import { UsersApi } from '../../api/users'
 import { LoadingStatus } from '../currentTypes'
-import { UserActionInterface, UserActionsType } from './types'
+import { RepoType, UserActionInterface, UserActionsType } from './types'
+import { UserType } from '../users/types'
 
 import { setMoreRepos, setUser, setUserLoadingStatus } from './index'
 import { setNotification } from '../notifications'
 
-export function* loadUser({ payload }: UserActionInterface): Generator {
+export function* loadUser({ payload }: UserActionInterface) {
   try {
     yield put(setUserLoadingStatus(LoadingStatus.LOADING))
-    const user: ReturnType<typeof Object> = yield call(fetchUser, payload)
-    const repos: ReturnType<typeof Object> = yield call(fetchUserRepos, payload)
+    const user: UserType = yield call(UsersApi.fetchUser, payload)
+    const repos: RepoType[] = yield call(UsersApi.fetchUserRepos, payload)
     yield put(setUser({ user, repos }))
   } catch ({ status }) {
     yield put(setUserLoadingStatus(LoadingStatus.ERROR))
@@ -29,9 +31,9 @@ export function* loadUser({ payload }: UserActionInterface): Generator {
   }
 }
 
-export function* loadMoreRepos({ payload }: UserActionInterface): Generator {
+export function* loadMoreRepos({ payload }: UserActionInterface) {
   try {
-    const repos: ReturnType<typeof Object> = yield call(fetchUserRepos, payload)
+    const repos: RepoType[] = yield call(UsersApi.fetchUserRepos, payload)
     yield put(setMoreRepos(repos))
   } catch ({ status }) {
     yield put(setUserLoadingStatus(LoadingStatus.ERROR))

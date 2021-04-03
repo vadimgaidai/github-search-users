@@ -1,23 +1,24 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { call, put, takeLatest } from 'redux-saga/effects'
 
-import { fetchSearchUsers, fetchUsers } from '../../api/users'
+import { UsersApi } from '../../api/users'
 import { LoadingStatus } from '../currentTypes'
 import {
   UsersSearchActionInterface,
   UsersActionInterface,
   UsersActionsType,
+  UserType,
+  SearchUsersType,
 } from './types'
 
 import { setUsers, setMoreUsers, setUsersLoadingStatus } from './index'
 import { setNotification } from '../notifications'
 
-export function* loadSearchUsers({
-  payload,
-}: UsersSearchActionInterface): Generator {
+export function* loadSearchUsers({ payload }: UsersSearchActionInterface) {
   try {
     yield put(setUsersLoadingStatus(LoadingStatus.LOADING))
-    const { items }: ReturnType<typeof Object> = yield call(
-      fetchSearchUsers,
+    const { items }: SearchUsersType = yield call(
+      UsersApi.fetchSearchUsers,
       payload
     )
     yield payload.page > 1 ? put(setMoreUsers(items)) : put(setUsers(items))
@@ -37,10 +38,10 @@ export function* loadSearchUsers({
   }
 }
 
-export function* loadUsers({ payload }: UsersActionInterface): Generator {
+export function* loadUsers({ payload }: UsersActionInterface) {
   try {
     yield put(setUsersLoadingStatus(LoadingStatus.LOADING))
-    const data: ReturnType<typeof Object> = yield call(fetchUsers, payload)
+    const data: UserType[] = yield call(UsersApi.fetchUsers, payload)
     yield payload ? put(setMoreUsers(data)) : put(setUsers(data))
   } catch ({ status }) {
     yield put(setUsersLoadingStatus(LoadingStatus.ERROR))
